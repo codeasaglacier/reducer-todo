@@ -1,16 +1,16 @@
-import React, { useReducer } from 'react'
-import { initialState, reducer } from '../reducers/reducer'
+import React from 'react'
 
 
-const Todo = (props) => {
-  const [ state, dispatch ] = useReducer( reducer, initialState )
-  const toggleFinished = e => {
-    dispatch( { type: 'TOGGLE_FINISHED',  payload: props.id } )
+
+const Todo = ( { dispatchProp, todo}) => {
+  const toggleFinished = ( id ) => {
+    dispatchProp( { type: 'TOGGLE_FINISHED', payload: id} )
   }
   return (
     <p 
-      onClick = { toggleFinished }
-    >{ props.todo.item }</p>
+      onClick = { () => toggleFinished(todo.id) }
+      className = {todo.completed ? 'finished' : '' }
+    >{ todo.item }</p>
   )
 }
 export default Todo

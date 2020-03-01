@@ -32,11 +32,29 @@ todos: [
 export const reducer = ( state, action ) => {
   switch( action.type ) {
     case 'ADD_TODO':
-      return { ...state, todos: [ ...state.todos, {item: action.payload, completed: false, id: new Date()} ]}
+      return { ...state, 
+        todos: [ ...state.todos, 
+          {item: action.payload, completed: false, id: new Date()} 
+        ]}
+
+
     case 'TOGGLE_FINISHED':
-      return { ...state, }
+      let newArray = [...state.todos];
+      console.log( 'NewArray: ', newArray)
+      let toDoId = state.todos.findIndex(todo => {
+             return todo.id === action.payload;
+            });
+            console.log('toDoId:', toDoId);
+      newArray[toDoId].completed = !newArray[toDoId].completed;
+      return { ...state, todos: newArray };
+
+
     case 'CLEAR_FINISHED':
-      return { ...state, }
+      const stillTodo = state.todos.filter((todo) => {
+        return todo.completed === false
+      })
+      return { ...state, todos: stillTodo }
+
     default:
       return state
   }

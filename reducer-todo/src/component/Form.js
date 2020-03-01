@@ -1,30 +1,25 @@
-import React, { useState, useReducer } from 'react'
-import { initialState, reducer } from '../reducers/reducer'
-import List from './List'
+import React, { useState } from 'react'
 
-const Form = () => {
+
+
+const Form = ({stateProp, dispatchProp}) => {
   const [ todo, setTodo ] = useState( '' )
-  //useReducer should be in the outermost component
-  const [ state, dispatch ] = useReducer( reducer, initialState )
 
-  console.log( state )
+  console.log('Props: ', stateProp )
+  console.log('From Todo: ', todo )
 
   const handleChanges = e => {
     setTodo( e.target.value )
   }
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    dispatch( { type: 'ADD_TODO', payload: todo })
-  }
-
   const addTodo = e => {
-    dispatch( { type: 'ADD_TODO' } )
+    e.preventDefault()
+    dispatchProp( { type: 'ADD_TODO', payload: todo } )
   }
 
-  const toggleFinished = e => {
-    dispatch( { type: 'TOGGLE_FINISHED' } )
-  }
+  // const toggleFinished = e => {
+  //   dispatchProp( { type: 'TOGGLE_FINISHED' } )
+  // }
 
  
   return (
@@ -41,9 +36,9 @@ const Form = () => {
           value = { todo }
           onChange = { handleChanges }
         />
-        <button onClick = { handleSubmit }>Add To Do</button>
+        <button onClick = { addTodo }>Add To Do</button>
       </form>
-      <List todos = { state.todos } />
+     
     </div>
   )
 }
